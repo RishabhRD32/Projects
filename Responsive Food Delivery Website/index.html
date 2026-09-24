@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie | Food Delivery Website</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">Item Added to Cart!</div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="wrapper nav-container">
+            <a href="#" class="logo">Foodie.</a>
+            
+            <ul class="nav-list" id="nav-list">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#menu" class="nav-link">Menu</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#reviews" class="nav-link">Reviews</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <div class="cart-icon-container" id="cart-btn">
+                    <i class="fas fa-shopping-bag cart-icon"></i>
+                    <div class="cart-count" id="cart-count">0</div>
+                </div>
+                <div class="menu-toggle" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <!-- Fixed Link to login.html -->
+                <a href="login.html" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <span class="cart-title">Your Cart</span>
+            <i class="fas fa-times close-cart" id="close-cart"></i>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items injected by JS -->
+            <div class="text-center" style="margin-top: 2rem; color: var(--gray);">Your cart is empty</div>
+        </div>
+        <div class="cart-footer">
+            <div class="total-price">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <a href="#" class="btn checkout-btn">Checkout</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO -->
+        <section class="hero wrapper" id="home">
+            <div class="hero-content">
+                <h1 class="hero-title">Enjoy Your <span>Delicious</span> Food</h1>
+                <p class="hero-desc">Experience the best food delivery service in town. Fresh, hot, and tasty meals delivered right to your doorstep within minutes.</p>
+                <a href="#menu" class="btn">Order Now</a>
+            </div>
+            <div class="hero-img">
+                <!-- Using one of your local images for the hero -->
+                <img src="images/burger.png" alt="Burger">
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section-padding wrapper" id="services">
+            <div class="text-center">
+                <h5 class="heading-sub">How it works</h5>
+                <h2 class="heading-main">Our Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="images/easy-to-order.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2830/2830305.png'" alt="Order">
+                    </div>
+                    <h3 class="service-title">Easy To Order</h3>
+                    <p class="service-desc">Order food with a single click and select from a wide variety of options.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="images/fast-delivery.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2555/2555013.png'" alt="Delivery">
+                    </div>
+                    <h3 class="service-title">Fast Delivery</h3>
+                    <p class="service-desc">We ensure your food arrives hot and fresh in record time.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="images/best-quality.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2555/2555160.png'" alt="Quality">
+                    </div>
+                    <h3 class="service-title">Best Quality</h3>
+                    <p class="service-desc">Our chefs use only the finest ingredients to prepare your meals.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU -->
+        <section class="section-padding wrapper" id="menu">
+            <div class="text-center">
+                <h5 class="heading-sub">Our Menu</h5>
+                <h2 class="heading-main">Most Popular</h2>
+            </div>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Products injected by JS -->
+            </div>
+        </section>
+
+        <!-- REVIEWS -->
+        <section class="section-padding wrapper" id="reviews">
+            <div class="text-center">
+                <h5 class="heading-sub">Testimonials</h5>
+                <h2 class="heading-main">What They Say</h2>
+            </div>
+            
+            <!-- Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <img src="images/profile1.jpeg" onerror="this.src='https://randomuser.me/api/portraits/men/32.jpg'" class="reviewer-img" alt="User">
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <h3 class="service-title">John Doe</h3>
+                            <p class="review-text">"Absolutely delicious! The delivery was super fast and the food was hot."</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <img src="images/profile2.jpeg" onerror="this.src='https://randomuser.me/api/portraits/women/44.jpg'" class="reviewer-img" alt="User">
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <h3 class="service-title">Jane Smith</h3>
+                            <p class="review-text">"Best burgers in town. Highly recommend the Double Beef Burger!"</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <img src="images/profile3.jpeg" onerror="this.src='https://randomuser.me/api/portraits/men/85.jpg'" class="reviewer-img" alt="User">
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <h3 class="service-title">Mike Ross</h3>
+                            <p class="review-text">"Great service and amazing food quality. Will order again!"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="wrapper footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo">Foodie.</a>
+                <p style="margin-top: 1rem; color: var(--gray); line-height: 1.6;">Our mission is to satisfy your cravings with the best food in town, delivered fast.</p>
+                <div class="social-links" style="margin-top: 1rem;">
+                    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.google.com" target="_blank"><i class="fab fa-google"></i></a>
+                    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#menu">Our Menu</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Get Help</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="#">+1 234 567 890</a></li>
+                    <li><a href="#">support@foodie.com</a></li>
+                    <li><a href="#">New York, NY</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center" style="margin-top: 3rem; color: var(--gray);">
+            &copy; 2025 Foodie. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- Main Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

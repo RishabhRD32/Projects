@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Express - Login</title>
+    <style>
+        :root {
+            --lead: #3A3F44;
+            --gold-finger: #D4AF37;
+            --hint-yellow: #FFF9E3;
+            --pure-white: #FFFFFF;
+        }
+        body { background-color: var(--pure-white); font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .login-card { width: 350px; padding: 40px; border: 1px solid var(--hint-yellow); box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; border-radius: 20px; }
+        h2 { color: var(--lead); margin-bottom: 30px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 25px; text-align: center; box-sizing: border-box;}
+        button { width: 100%; background: var(--lead); color: var(--gold-finger); border: none; padding: 12px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background: var(--gold-finger); color: white; }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h2>Welcome Back</h2>
+        <form id="loginForm">
+            <input type="text" id="logName" placeholder="Name (Characters)" pattern="[A-Za-z\s]+" required>
+            <input type="number" id="logPhone" placeholder="10-Digit Contact" required>
+            <input type="password" id="logPass" placeholder="Password" required>
+            <button type="submit">LOGIN</button>
+        </form>
+        <!-- Corrected link to signup.html -->
+        <p style="font-size: 12px; margin-top: 15px;">New user? <a href="signup.html" style="color: var(--gold-finger);">Sign Up here</a></p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            alert("Login Successful! Preparing your menu...");
+            // Redirect to main page after login
+            window.location.href = "index.html";
+        };
+    </script>
+</body>
+</html>

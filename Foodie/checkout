@@ -1,0 +1,225 @@
+<div id="payment-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Select Payment Method</h2>
+        
+        <div class="payment-option">
+            <h3>Option 1: Scan to Pay</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ExamplePayment" alt="Payment QR Code" class="qr-code">
+            <p>Scan with any UPI App</p>
+        </div>
+
+        <hr>
+
+        <div class="payment-option">
+            <h3>Option 2: Cash on Delivery</h3>
+            <label class="cod-label">
+                <input type="radio" name="payment-method" value="cod" id="cod-radio">
+                Pay with Cash upon delivery
+            </label>
+        </div>
+
+        <div class="modal-actions">
+            <button id="cancel-btn" class="btn cancel-btn">Cancel</button>
+            <button id="confirm-order-btn" class="btn confirm-btn">Confirm Order</button>
+        </div>
+    </div>
+</div>
+
+<div id="order-success" class="modal hidden">
+    <div class="modal-content success-content">
+        <div class="checkmark">✔</div>
+        <h2>Order Placed!</h2>
+        <p>Your food is being prepared.</p>
+        <button id="done-btn" class="btn done-btn">Done</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+/* Styling for the Modal Overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Utility class to hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* Modal Box Styling */
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.qr-code {
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.cod-label {
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: block;
+    margin: 10px 0;
+}
+
+/* Button Styles */
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.confirm-btn { background-color: #28a745; color: white; }
+.cancel-btn { background-color: #dc3545; color: white; }
+.done-btn { background-color: #007bff; color: white; width: 100%; }
+
+/* Success Checkmark Animation */
+.checkmark {
+    font-size: 50px;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+// --- SELECT ELEMENTS ---
+const checkoutBtn = document.getElementById('checkout-btn'); // From previous step
+const paymentModal = document.getElementById('payment-modal');
+const orderSuccess = document.getElementById('order-success');
+const confirmOrderBtn = document.getElementById('confirm-order-btn');
+const cancelBtn = document.getElementById('cancel-btn');
+const doneBtn = document.getElementById('done-btn');
+const cartTotalElement = document.getElementById('cart-total');
+
+// --- EVENT LISTENERS ---
+
+// 1. Open Payment Modal when Checkout is clicked
+checkoutBtn.addEventListener('click', () => {
+    // Only open if cart is not empty (double check)
+    if (!checkoutBtn.disabled) {
+        paymentModal.classList.remove('hidden');
+    }
+});
+
+// 2. Cancel Button (Close Modal)
+cancelBtn.addEventListener('click', () => {
+    paymentModal.classList.add('hidden');
+});
+
+// 3. Confirm Order Button
+confirmOrderBtn.addEventListener('click', () => {
+    // Optional: Check if a payment method is selected
+    // For this example, we assume they scanned or selected COD
+    
+    // Hide Payment Modal
+    paymentModal.classList.add('hidden');
+    
+    // Show Success Message
+    orderSuccess.classList.remove('hidden');
+    
+    // Reset the cart logic here (set price back to 0)
+    cartTotalElement.innerText = "$0.00";
+    checkoutBtn.disabled = true; 
+});
+
+// 4. Done Button (Final Reset)
+doneBtn.addEventListener('click', () => {
+    orderSuccess.classList.add('hidden');
+    alert("Thank you for shopping! Redirecting to menu...");
+    // You can redirect the user here if you want:
+    // window.location.reload(); 
+});
+
+
+
+
+//Instead of hardcoding the products array in main.js, your JavaScript will now fetch this data from PHP.
+<?php
+include 'db.php';
+
+$sql = "SELECT * FROM products";
+$result = $conn->query($sql);
+
+$products = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
+header('Content-Type: application/json');
+echo json_encode($products);
+?>
+
+
+
+
+
+
+
+//Update the confirmOrderBtn listener from your checkout logic:(javascript)
+confirmOrderBtn.addEventListener('click', async () => {
+    const orderData = {
+        cart: cart,
+        total: cartTotalEl.innerText
+    };
+
+    const response = await fetch('place_order.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+
+    if (result.status === 'success') {
+        paymentModal.classList.add('hidden'); [cite: 20]
+        orderSuccess.classList.remove('hidden'); [cite: 20]
+        cart = []; // Clear local cart
+        updateCart();
+        checkoutBtn.disabled = true; [cite: 20]
+    }
+});
+

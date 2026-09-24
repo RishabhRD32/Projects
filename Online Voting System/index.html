@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f2f5, #e0e8f0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background 2s ease-in-out;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .headerSection {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .headerSection h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #3498db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .form-heading {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-heading::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #3498db;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .login-form input,
+        .login-form select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .login-form input:focus,
+        .login-form select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+            background-color: #fff;
+            outline: none;
+        }
+        
+        #loginbtn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        #loginbtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-link {
+            font-size: 0.9rem;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        #error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header class="headerSection">
+            <h1>Online Voting System</h1>
+        </header>
+        <div class="form-container">
+            <h2 class="form-heading">Login</h2>
+            <p id="error-message"></p>
+            <form action="API/login.php" method="post" class="login-form" id="login-form">
+                <input type="email" name="email" id="email" placeholder="Enter email" required>
+                <input type="tel" name="mobile" id="mobile" placeholder="Enter mobile" required>
+                <input type="password" name="password" id="password" placeholder="Enter password" required>
+                <select name="role" required>
+                    <option value="1">Voter</option>
+                    <option value="2">Group</option>
+                </select>
+                <div class="g-recaptcha" data-sitekey="6Le0_dArAAAAACRHKTVjLc_Ew0hWpSEtCSW9Gs4Y"></div>
+                <button type="submit" id="loginbtn">Login</button>
+            </form>
+            <p class="register-link">New User? <a href="Routes/register.html">Register here</a></p>
+        </div>
+    </div>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const mobileInput = document.getElementById('mobile');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+
+        form.addEventListener('submit', function(event) {
+            // Prevent the form from submitting by default
+            event.preventDefault();
+
+            let isValid = true;
+            let message = '';
+
+            // Validate Email
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailValue)) {
+                isValid = false;
+                message = 'Please enter a valid email address.';
+            }
+
+            // Validate Mobile Number (must be exactly 10 digits)
+            const mobileValue = mobileInput.value.trim();
+            if (mobileValue.length !== 10) {
+                isValid = false;
+                message = 'Mobile number must be exactly 10 digits.';
+            }
+            
+            // Validate Password Length (minimum 6 characters)
+            const passwordValue = passwordInput.value.trim();
+            if (passwordValue.length < 6) {
+                isValid = false;
+                message = 'Password must be at least 6 characters long.';
+            }
+
+            // Display error message or submit the form
+            if (!isValid) {
+                errorMessage.textContent = message;
+            } else {
+                // Clear any previous error message
+                errorMessage.textContent = '';
+                // Submit the form
+                this.submit();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Questions - AptitudeHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0066cc;
+      margin-top: 40px;
+    }
+
+    .columns {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 40px 20px;
+      gap: 20px;
+    }
+
+    .column {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    .column h3 {
+      color: #ff9800;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .question {
+      margin-bottom: 15px;
+    }
+
+    .question p {
+      margin: 0 0 5px 0;
+      font-weight: 500;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      background-color: #0066cc;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #004080;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 5px;
+      padding: 8px;
+      background-color: #e9ecef;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1024px) {
+      .columns {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Interview Questions</h2>
+
+<div class="columns">
+  <!-- HR Interview -->
+  <div class="column">
+    <h3>HR Interview</h3>
+    <div class="question">
+      <p>1. Tell me about yourself.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Focus on your background, experience, and strengths relevant to the role.</div>
+    </div>
+    <div class="question">
+      <p>2. Why do you want to work here?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Discuss the company's values, growth opportunities, and alignment with your goals.</div>
+    </div>
+    <div class="question">
+      <p>3. What are your strengths?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Highlight relevant strengths with examples.</div>
+    </div>
+    <div class="question">
+      <p>4. What are your weaknesses?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Mention a weakness and steps you’re taking to improve it.</div>
+    </div>
+    <div class="question">
+      <p>5. Where do you see yourself in 5 years?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Demonstrate ambition while showing alignment with company goals.</div>
+    </div>
+    <div class="question">
+      <p>6. Why should we hire you?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Highlight your skills, experience, and cultural fit for the role.</div>
+    </div>
+    <div class="question">
+      <p>7. Describe a challenging situation and how you handled it.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Use the STAR method: Situation, Task, Action, Result.</div>
+    </div>
+    <div class="question">
+      <p>8. How do you handle stress and pressure?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Mention techniques like prioritization, time management, and staying calm.</div>
+    </div>
+    <div class="question">
+      <p>9. Tell us about a time you worked in a team.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Highlight collaboration skills and your specific contributions.</div>
+    </div>
+    <div class="question">
+      <p>10. Do you have any questions for us?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Ask insightful questions about company culture, projects, or growth opportunities.</div>
+    </div>
+  </div>
+
+  <!-- Technical Interview -->
+  <div class="column">
+    <h3>Technical Interview</h3>
+    <div class="question">
+      <p>1. Explain the difference between supervised and unsupervised learning.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Supervised learning uses labeled data; unsupervised learning finds patterns in unlabeled data.</div>
+    </div>
+    <div class="question">
+      <p>2. What is a REST API?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">REST API allows client-server communication using HTTP methods like GET, POST, PUT, DELETE.</div>
+    </div>
+    <div class="question">
+      <p>3. Explain normalization in databases.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Normalization organizes data to reduce redundancy and improve integrity.</div>
+    </div>
+    <div class="question">
+      <p>4. What is polymorphism in OOP?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Polymorphism allows objects to take many forms, enabling methods to behave differently.</div>
+    </div>
+    <div class="question">
+      <p>5. Difference between stack and queue?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Stack is LIFO; Queue is FIFO.</div>
+    </div>
+    <div class="question">
+      <p>6. What is a deadlock?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Deadlock occurs when processes wait indefinitely for resources held by each other.</div>
+    </div>
+    <div class="question">
+      <p>7. Explain TCP vs UDP.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">TCP is connection-oriented and reliable; UDP is connectionless and faster but unreliable.</div>
+    </div>
+    <div class="question">
+      <p>8. What is a binary search?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Binary search finds an element in a sorted array by repeatedly dividing the search interval in half.</div>
+    </div>
+    <div class="question">
+      <p>9. Explain primary key vs foreign key.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Primary key uniquely identifies a row; foreign key links tables together.</div>
+    </div>
+    <div class="question">
+      <p>10. Purpose of indexing in databases?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Indexing improves query performance by allowing faster data retrieval.</div>
+    </div>
+  </div>
+
+  <!-- Group Discussion -->
+  <div class="column">
+    <h3>Group Discussion</h3>
+    <div class="question">
+      <p>1. Discuss the impact of AI on employment.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">AI automates repetitive tasks but also creates new opportunities in tech and research.</div>
+    </div>
+    <div class="question">
+      <p>2. Pros and cons of remote work.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Pros: flexibility, reduced commute. Cons: isolation, communication challenges.</div>
+    </div>
+    <div class="question">
+      <p>3. Should education be free for all?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Free education promotes equality, but funding and quality are concerns.</div>
+    </div>
+    <div class="question">
+      <p>4. Climate change and its effect on society.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Leads to extreme weather, resource scarcity, and economic challenges.</div>
+    </div>
+    <div class="question">
+      <p>5. Social media: advantages and disadvantages.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Connects people and spreads information but may cause misinformation and addiction.</div>
+    </div>
+    <div class="question">
+      <p>6. Should companies implement a 4-day workweek?</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Can improve productivity and work-life balance but may require workflow adjustments.</div>
+    </div>
+    <div class="question">
+      <p>7. Importance of mental health awareness.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Promotes wellbeing, reduces stigma, and improves productivity and relationships.</div>
+    </div>
+    <div class="question">
+      <p>8. The future of electric vehicles.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">EVs reduce carbon emissions, but charging infrastructure and battery disposal are challenges.</div>
+    </div>
+    <div class="question">
+      <p>9. Pros and cons of globalization.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Promotes trade and cultural exchange but may increase inequality and cultural homogenization.</div>
+    </div>
+    <div class="question">
+      <p>10. Role of technology in education.</p>
+      <button class="btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Technology enhances learning with online resources and interactive tools but may cause distraction if misused.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(btn) {
+  const answer = btn.nextElementSibling;
+  if (answer.style.display === "block") {
+    answer.style.display = "none";
+    btn.textContent = "Show Answer";
+  } else {
+    answer.style.display = "block";
+    btn.textContent = "Hide Answer";
+  }
+}
+</script>
+
+</body>
+</html>

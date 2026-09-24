@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intermediate Level - AptitudeHub</title>
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h2 {
+      color: #ff6600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .question-box {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+    }
+    .options label {
+      display: block;
+      background: #f9f9f9;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    .options label:hover {
+      background: #ffe6cc;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #ff6600;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #cc5200;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .answer {
+      display: none;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .timer {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Intermediate Level Practice</h2>
+    <div class="timer" id="timer">Time Left: 90s</div>
+
+    <div class="question-box" id="question">Loading question...</div>
+    <div class="options" id="options"></div>
+
+    <button class="btn" onclick="checkAnswer()">Check Answer</button>
+    <p class="answer" id="answer"></p>
+
+    <div class="btn-group">
+      <button class="btn" onclick="prevQuestion()">Previous</button>
+      <button class="btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "What is 125 × 24 ÷ 6?", options: ["450", "500", "600", "550"], correct: 2 },
+      { q: "Find the next number: 3, 9, 27, 81, ?", options: ["162", "243", "324", "216"], correct: 1 },
+      { q: "If 5x + 7 = 32, find x.", options: ["4", "5", "6", "7"], correct: 0 },
+      { q: "A train travels 360 km in 4 hours. Its speed is?", options: ["80 km/h", "90 km/h", "100 km/h", "110 km/h"], correct: 1 },
+      { q: "Find the odd one out: 121, 144, 169, 200", options: ["121", "144", "169", "200"], correct: 3 },
+      { q: "If a:b = 3:4 and b:c = 2:5, find a:c.", options: ["3:10", "3:8", "6:20", "6:25"], correct: 3 },
+      { q: "In a certain code, BALL = 2533, and BALLS = ?", options: ["25339", "25335", "25332", "25331"], correct: 0 },
+      { q: "A sum of money doubles itself in 5 years at simple interest. Find rate of interest.", options: ["10%", "15%", "20%", "25%"], correct: 0 },
+      { q: "Find the missing number: 7, 14, 28, 56, ?", options: ["70", "100", "112", "120"], correct: 2 },
+      { q: "If the cost price of 15 items is equal to the selling price of 12 items, find profit %.", options: ["20%", "25%", "15%", "30%"], correct: 1 }
+    ];
+
+    let currentIndex = 0;
+    let timer = 90;
+    let countdown;
+
+    function loadQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("question").textContent = `${currentIndex + 1}. ${q.q}`;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        optionsDiv.innerHTML += `<label><input type="radio" name="option" value="${i}"> ${opt}</label>`;
+      });
+      document.getElementById("answer").style.display = "none";
+    }
+
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) { alert("Please select an option first."); return; }
+      const correctIndex = questions[currentIndex].correct;
+      const answerDiv = document.getElementById("answer");
+      if (parseInt(selected.value) === correctIndex) {
+        answerDiv.textContent = "✅ Correct!";
+        answerDiv.style.color = "green";
+      } else {
+        answerDiv.textContent = `❌ Wrong! Correct answer: ${questions[currentIndex].options[correctIndex]}`;
+        answerDiv.style.color = "red";
+      }
+      answerDiv.style.display = "block";
+    }
+
+    function nextQuestion() {
+      currentIndex = (currentIndex + 1) % questions.length;
+      loadQuestion();
+    }
+
+    function prevQuestion() {
+      currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+      loadQuestion();
+    }
+
+    function startTimer() {
+      countdown = setInterval(() => {
+        document.getElementById("timer").textContent = `Time Left: ${timer}s`;
+        if (timer <= 0) {
+          clearInterval(countdown);
+          alert("⏱️ Time's up!");
+        }
+        timer--;
+      }, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadQuestion();
+      startTimer();
+    });
+  </script>
+</body>
+</html>

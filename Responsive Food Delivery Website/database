@@ -1,0 +1,117 @@
+Main Tables and Description
+1. User Table
+
+Stores customer and admin information.
+
+Fields:
+
+User_ID (Primary Key)
+
+Name
+
+Email
+
+Contact_Number
+
+Password
+
+Address
+
+Role (User/Admin)
+
+Purpose:
+Manages user registration and login details.
+
+2. Food Table
+
+Stores details of food items.
+
+Fields:
+
+Food_ID (Primary Key)
+
+Food_Name
+
+Category
+
+Price
+
+Description
+
+Availability_Status
+
+Purpose:
+Displays food menu to users.
+
+3. Order Table
+
+Stores order details.
+
+Fields:
+
+Order_ID (Primary Key)
+
+User_ID (Foreign Key)
+
+Order_Date
+
+Total_Amount
+
+Order_Status
+
+Purpose:
+Tracks customer orders.
+
+4. Order_Details Table
+
+Stores individual items in each order.
+
+Fields:
+
+Order_Detail_ID (Primary Key)
+
+Order_ID (Foreign Key)
+
+Food_ID (Foreign Key)
+
+Quantity
+
+Price
+
+Purpose:
+Manages multiple items in one order.
+
+5. Payment Table
+
+Stores payment information.
+
+Fields:
+
+Payment_ID (Primary Key)
+
+Order_ID (Foreign Key)
+
+Payment_Method
+
+Payment_Status
+
+Payment_Date
+
+Purpose:
+Handles payment records.
+
+6. Delivery Table
+
+Stores delivery status information.
+
+Fields:
+
+Delivery_ID (Primary Key)
+
+Order_ID (Foreign Key)
+
+Delivery_Address
+
+Delivery_Status
+
+Estimated_Time                                                                                                  

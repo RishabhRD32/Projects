@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Express - Sign Up</title>
+    <style>
+        :root {
+            --lead: #3A3F44;
+            --gold-finger: #D4AF37;
+            --hint-yellow: #FFF9E3;
+            --pure-white: #FFFFFF;
+        }
+        body { background-color: var(--pure-white); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh; align-items: center;}
+        .form-container { width: 400px; border: 2px solid var(--lead); padding: 30px; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); background: white; }
+        h2 { color: var(--gold-finger); text-align: center; border-bottom: 2px solid var(--hint-yellow); padding-bottom: 10px; margin-top: 0;}
+        label { display: block; margin-top: 10px; color: var(--lead); font-weight: bold; font-size: 0.9rem;}
+        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid var(--lead); border-radius: 5px; box-sizing: border-box; }
+        input:focus { background-color: var(--hint-yellow); outline: none; border-color: var(--gold-finger); }
+        .location-box { background: #f9f9f9; padding: 10px; margin-top: 15px; border-left: 4px solid var(--gold-finger); }
+        button { width: 100%; background: var(--gold-finger); color: white; border: none; padding: 12px; margin-top: 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        button:hover { background: var(--lead); }
+        .back-link { display: block; text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--lead);}
+        .back-link a { color: var(--gold-finger); text-decoration: none;}
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Create Account</h2>
+        <form id="signInForm">
+            <label>Name</label>
+            <input type="text" id="name" pattern="[A-Za-z\s]+" title="Only characters allowed" required>
+
+            <label>Email</label>
+            <input type="email" id="email" required>
+
+            <label>Contact Number</label>
+            <input type="text" id="phone" pattern="\d{10}" title="Enter exactly 10 digits" required>
+
+            <label>Password</label>
+            <input type="password" id="pass" required>
+
+            <label>Confirm Password</label>
+            <input type="password" id="confirmPass" required>
+
+            <div class="location-box">
+                <small>Delivery Location</small>
+                <input type="number" id="room" placeholder="Room No (Int Only)" required>
+                <input type="text" id="area" placeholder="Area (Char Only)" pattern="[A-Za-z\s]+" required>
+                <input type="text" id="city" placeholder="City (Char Only)" pattern="[A-Za-z\s]+" required>
+                <input type="number" id="pincode" placeholder="Pincode (Int Only)" required>
+            </div>
+
+            <button type="submit">REGISTER</button>
+            <span class="back-link">Already have an account? <a href="login.html">Login here</a></span>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signInForm').onsubmit = function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('pass').value;
+            const confirm = document.getElementById('confirmPass').value;
+
+            if(pass !== confirm) {
+                alert("Passwords do not match!");
+            } else {
+                alert("Account Created Successfully! Redirecting to Login...");
+                window.location.href = "login.html"; 
+            }
+        };
+    </script>
+</body>
+</html>

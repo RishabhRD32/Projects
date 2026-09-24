@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verbal Ability Quiz - AptitudeHub</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+h1 { margin-top: 30px; color: #0066cc; }
+
+.step, .question-card {
+    max-width: 700px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.step h2, .question-card h3 { color: #004080; }
+
+.btn-back, .btn-start, .btn-option, .btn-nav, .btn-restart {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-back { background-color: #0066cc; color: #fff; }
+.btn-back:hover { background-color: #004080; }
+
+.btn-start { background-color: #28a745; color: #fff; }
+.btn-start:hover { background-color: #1e7e34; }
+
+.btn-option {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #0066cc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+.btn-option:hover { background-color: #0066cc; color: #fff; }
+
+.result { margin-top: 20px; font-weight: bold; text-align: center; font-size: 1.1rem; }
+
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 20px auto;
+    height: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #0066cc;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+</style>
+</head>
+<body>
+
+<h1>Verbal Ability Quiz</h1>
+
+<!-- Step 1: Select Difficulty -->
+<div class="step" id="difficulty-step">
+    <h2>Select Difficulty</h2>
+    <button class="btn-start" onclick="startQuiz('easy')">Easy</button>
+    <button class="btn-start" onclick="startQuiz('medium')">Medium</button>
+    <button class="btn-start" onclick="startQuiz('hard')">Hard</button>
+</div>
+
+<!-- Quiz Step -->
+<div class="question-card" id="quiz-step" style="display:none;">
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <h3 id="question-text">Question will appear here</h3>
+    <div class="options">
+        <button class="btn-option" id="option0" onclick="selectAnswer(0)"></button>
+        <button class="btn-option" id="option1" onclick="selectAnswer(1)"></button>
+        <button class="btn-option" id="option2" onclick="selectAnswer(2)"></button>
+        <button class="btn-option" id="option3" onclick="selectAnswer(3)"></button>
+    </div>
+    <div class="result" id="result"></div>
+    <div style="margin-top:15px;">
+        <button class="btn-nav" onclick="prevQuestion()">Previous</button>
+        <button class="btn-nav" onclick="nextQuestion()">Next</button>
+    </div>
+    <div style="margin-top:20px;">
+        <a href="practice.html" class="btn-back">Back to Categories</a>
+        <a href="index.html" class="btn-back">Back to Home</a>
+    </div>
+</div>
+
+<script>
+const questions = {
+easy:[
+{question:"Select the synonym of 'Happy'", options:["Sad","Joyful","Angry","Tired"], answer:"Joyful"},
+{question:"Select the antonym of 'Cold'", options:["Hot","Chilly","Freezing","Cool"], answer:"Hot"},
+{question:"Choose the correctly spelled word", options:["Recieve","Receive","Recive","Receve"], answer:"Receive"},
+{question:"Select the word that doesn't belong", options:["Apple","Banana","Car","Mango"], answer:"Car"},
+{question:"Fill in the blank: She ___ a book", options:["reads","read","reading","reed"], answer:"reads"},
+{question:"Choose the correct plural: Mouse", options:["Mouses","Mices","Mice","Mous"], answer:"Mice"},
+{question:"Select synonym of 'Quick'", options:["Fast","Slow","Late","Lazy"], answer:"Fast"},
+{question:"Complete: He is ___ than his brother", options:["tall","taller","tallest","most tall"], answer:"taller"},
+{question:"Choose correct: I ___ to school", options:["go","goes","going","gone"], answer:"go"},
+{question:"Antonym of 'Bright'", options:["Light","Shiny","Dark","Radiant"], answer:"Dark"}
+],
+medium:[
+{question:"Fill in the blank: If I ___ you, I would apologize", options:["was","were","am","be"], answer:"were"},
+{question:"Select the synonym of 'Abundant'", options:["Scarce","Plenty","Rare","Little"], answer:"Plenty"},
+{question:"Choose correct sentence", options:["She don't like tea","She doesn't likes tea","She doesn't like tea","She don't likes tea"], answer:"She doesn't like tea"},
+{question:"Antonym of 'Complex'", options:["Simple","Hard","Difficult","Tough"], answer:"Simple"},
+{question:"Choose the correct idiom meaning 'Bite the bullet'", options:["Run away","Face difficulty","Chew food","Cry"], answer:"Face difficulty"},
+{question:"Select synonym of 'Angry'", options:["Furious","Happy","Sad","Calm"], answer:"Furious"},
+{question:"Fill in the blank: He ___ working", options:["is","are","am","be"], answer:"is"},
+{question:"Choose correct past tense: Go", options:["Goed","Went","Gone","Go"], answer:"Went"},
+{question:"Select antonym of 'Generous'", options:["Kind","Mean","Selfish","Caring"], answer:"Selfish"},
+{question:"Complete analogy: Dog: Bark:: Cat: ?", options:["Meow","Moo","Roar","Chirp"], answer:"Meow"}
+],
+hard:[
+{question:"Identify the correct sentence", options:["Each of the boys have a pen","Each of the boys has a pen","Each of boys has a pen","Each boys has a pen"], answer:"Each of the boys has a pen"},
+{question:"Find synonym: 'Obfuscate'", options:["Clarify","Confuse","Explain","Illuminate"], answer:"Confuse"},
+{question:"Choose antonym of 'Ephemeral'", options:["Short-lived","Permanent","Temporary","Brief"], answer:"Permanent"},
+{question:"Select the correct spelling", options:["Accommodate","Acomodate","Acommadate","Accomadate"], answer:"Accommodate"},
+{question:"Fill in blank: Had I ___ enough time, I would have gone", options:["have","has","had","having"], answer:"had"},
+{question:"Identify the correct idiom meaning 'Let the cat out of the bag'", options:["Reveal secret","Hide secret","Ignore secret","Create secret"], answer:"Reveal secret"},
+{question:"Select the synonym of 'Plausible'", options:["Impossible","Possible","Unlikely","Reasonable"], answer:"Reasonable"},
+{question:"Correct sentence: Neither John nor Mary ___ present", options:["are","is","be","am"], answer:"is"},
+{question:"Antonym of 'Opaque'", options:["Transparent","Cloudy","Dark","Foggy"], answer:"Transparent"},
+{question:"Complete analogy: Sun: Day:: Moon: ?", options:["Night","Light","Sky","Star"], answer:"Night"}
+]
+};
+
+let currentDifficulty = '';
+let quizData = [];
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz(level){
+    currentDifficulty = level;
+    quizData = questions[level];
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('difficulty-step').style.display = 'none';
+    document.getElementById('quiz-step').style.display = 'block';
+    updateProgressBar();
+    showQuestion();
+}
+
+function showQuestion(){
+    const q = quizData[currentQuestion];
+    document.getElementById('question-text').innerText = `Q${currentQuestion+1}: ${q.question}`;
+    for(let i=0;i<4;i++){
+        const btn = document.getElementById('option'+i);
+        btn.innerText = q.options[i];
+        btn.disabled = false;
+        btn.style.backgroundColor = '#f8f9fa';
+        btn.style.color = '#000';
+    }
+    document.getElementById('result').innerText = '';
+    updateProgressBar();
+}
+
+function selectAnswer(index){
+    const selected = quizData[currentQuestion].options[index];
+    const correct = quizData[currentQuestion].answer;
+    const resultEl = document.getElementById('result');
+
+    if((Array.isArray(correct) && correct.includes(selected)) || selected === correct){
+        resultEl.innerText = "Correct Answer!";
+        resultEl.style.color = "#28a745";
+        score++;
+    } else {
+        resultEl.innerText = `Wrong Answer! Correct: ${Array.isArray(correct)? correct.join(' or ') : correct}`;
+        resultEl.style.color = "#dc3545";
+    }
+
+    for(let i=0;i<4;i++){
+        document.getElementById('option'+i).disabled = true;
+    }
+    updateProgressBar();
+}
+
+function nextQuestion(){
+    if(currentQuestion < quizData.length -1){
+        currentQuestion++;
+        showQuestion();
+    } else { showFinalScore(); }
+}
+
+function prevQuestion(){
+    if(currentQuestion > 0){
+        currentQuestion--;
+        showQuestion();
+    }
+}
+
+function showFinalScore(){
+    const quizStep = document.getElementById('quiz-step');
+    quizStep.innerHTML = `
+        <h2>Quiz Completed!</h2>
+        <p>Your Score: ${score} / ${quizData.length}</p>
+        <button class="btn-restart" onclick="restartQuiz()">Restart Quiz</button>
+        <div style="margin-top:20px;">
+            <a href="practice.html" class="btn-back">Back to Categories</a>
+            <a href="index.html" class="btn-back">Back to Home</a>
+        </div>
+    `;
+}
+
+function restartQuiz(){
+    document.getElementById('difficulty-step').style.display = 'block';
+    document.getElementById('quiz-step').style.display = 'none';
+    document.getElementById('progress-bar').style.width = '0%';
+}
+
+function updateProgressBar(){
+    const progressPercent = ((currentQuestion)/quizData.length)*100;
+    document.getElementById('progress-bar').style.width = progressPercent + '%';
+}
+</script>
+</body>
+</html>

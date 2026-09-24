@@ -1,0 +1,66 @@
+To run this project, you cannot simply double-click the files. Because it uses PHP and MySQL, you need a local server environment.
+
+Here is the step-by-step guide to running this on your Windows, Mac, or Linux computer using XAMPP (the easiest free tool for this).
+
+Step 1: Install XAMPP
+Download XAMPP from apachefriends.org.
+
+Install it.
+
+Open the XAMPP Control Panel.
+
+Click "Start" next to Apache (the web server) and MySQL (the database).
+
+Step 2: Create the Project Folder
+Go to your XAMPP installation folder (usually C:\xampp on Windows).
+
+Open the htdocs folder.
+
+Create a new folder inside htdocs named gov_portal.
+
+Step 3: Save the Files
+Save the code I provided in the previous answer into that gov_portal folder with these exact names:
+
+config.php
+
+setup.php
+
+index.php
+
+admin.php
+
+Step 4: Create the Uploads Folder (Important!)
+Inside your gov_portal folder, create a new empty folder named:
+
+uploads
+
+If you skip this, image uploads will fail.
+
+Step 5: Run the Auto-Installer
+Now, open your web browser (Chrome, Edge, etc.) and type this URL: 👉 http://localhost/gov_portal/setup.php
+
+You should see a green success message: "System Installed Successfully".
+
+This automatically creates your Database and Tables. You don't need to touch phpMyAdmin.
+
+Step 6: Use the Website
+1. Citizen View (Public): Go to: http://localhost/gov_portal/index.php
+
+Fill out the form.
+
+Upload a photo.
+
+Copy the Docket ID (e.g., GOV-2024-X99) to track it later.
+
+2. Admin View (Government): Go to: http://localhost/gov_portal/admin.php
+
+Username: admin
+
+Password: admin123
+
+Here you can see the reports, view the photos, and change status to "Action Taken".
+
+Troubleshooting
+"Database Connection Failed": Open config.php and make sure $password is empty ("") if you are using default XAMPP. If you set a password for MySQL, update it there.
+
+Images not uploading: Check if the uploads folder exists in C:\xampp\htdocs\gov_portal\

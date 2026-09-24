@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earn Badges Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+      margin-bottom: 10px;
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .options label {
+      display: block;
+      margin: 8px 0;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .options label:hover {
+      background: #eef6ff;
+    }
+    .nav-btn {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .nav-btn:hover {
+      background: #004a99;
+    }
+    #badgeContainer {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 10px;
+      background: #e6f2ff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #badgeIcon {
+      font-size: 4rem;
+    }
+    #progress {
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    #homeBtn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #homeBtn:hover {
+      background: #1e7e34;
+    }
+    #reviewContainer {
+      display: none;
+    }
+    .review-question {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f1faff;
+    }
+    .review-question p {
+      margin: 5px 0;
+    }
+    .home-screen {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .home-screen h2 {
+      color: #0066cc;
+      margin-bottom: 30px;
+    }
+    .start-quiz-btn {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .start-quiz-btn:hover {
+      background: #004a99;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏅 Earn Badges</h1>
+
+  <!-- Home Screen -->
+  <div class="quiz-container" id="homeScreen">
+    <div class="home-screen">
+      <h2>Welcome to the Quiz Badge System!</h2>
+      <p>Test your knowledge and earn badges based on your performance:</p>
+      <ul style="text-align: left; max-width: 300px; margin: 20px auto;">
+        <li>🥇 Gold Badge: 8+ correct answers</li>
+        <li>🥈 Silver Badge: 5-7 correct answers</li>
+        <li>🥉 Bronze Badge: Less than 5 correct answers</li>
+      </ul>
+      <button class="start-quiz-btn" onclick="startQuiz()">🚀 Start Quiz</button>
+    </div>
+  </div>
+
+  <!-- Quiz Container -->
+  <div class="quiz-container" id="quizContainer" style="display:none;">
+    <div id="progress"></div>
+    <div id="quiz"></div>
+    <div style="text-align:center;">
+      <button class="nav-btn" onclick="prevQuestion()" id="prevBtn">Previous</button>
+      <button class="nav-btn" onclick="nextQuestion()" id="nextBtn">Next</button>
+      <button class="nav-btn" onclick="reviewAnswers()" id="reviewBtn" style="display:none;">Review Answers</button>
+    </div>
+  </div>
+
+  <!-- Review Container -->
+  <div class="quiz-container" id="reviewContainer">
+    <h2 style="text-align:center; color:#0066cc;">Review Your Answers</h2>
+    <div id="reviewList"></div>
+    <div style="text-align:center;">
+      <button class="nav-btn" onclick="editAnswers()">Edit Answers</button>
+      <button class="nav-btn" onclick="submitQuiz()">Submit Test</button>
+    </div>
+  </div>
+
+  <!-- Badge Container -->
+  <div id="badgeContainer">
+    <div id="badgeIcon">🏆</div>
+    <h2 id="badgeTitle"></h2>
+    <p id="badgeDesc"></p>
+    <button id="homeBtn" onclick="goHome()">🏠 Back to Home</button>
+  </div>
+
+  <script>
+    const quizData = [
+      { q: "Which is the smallest prime number?", options: ["0","1","2","3"], answer: "2" },
+      { q: "Sun rises in which direction?", options: ["North","South","East","West"], answer: "East" },
+      { q: "What is the capital of Japan?", options: ["Tokyo","Kyoto","Osaka","Nagoya"], answer: "Tokyo" },
+      { q: "Choose the largest planet in our solar system.", options: ["Earth","Jupiter","Saturn","Mars"], answer: "Jupiter" },
+      { q: "Which of these are even numbers?", options: ["2","3","4","5"], answer: "2" },
+      { q: "Which data structure uses FIFO principle?", options: ["Stack","Queue","Array","Tree"], answer: "Queue" },
+      { q: "At what temperature does water boil (°C)?", options: ["50","90","100","120"], answer: "100" },
+      { q: "Who is known as Father of Computers?", options: ["Charles Babbage","Alan Turing","John von Neumann","Ada Lovelace"], answer: "Charles Babbage" },
+      { q: "Which of these is a programming language?", options: ["HTML","Python","CSS","JSON"], answer: "Python" },
+      { q: "Which of these is a vowel?", options: ["B","C","A","F"], answer: "A" }
+    ];
+
+    let currentQuestion = 0;
+    let selectedAnswers = {};
+    const quizContainer = document.getElementById("quiz");
+    const progressDiv = document.getElementById("progress");
+
+    function startQuiz() {
+      // Reset quiz state
+      currentQuestion = 0;
+      selectedAnswers = {};
+      
+      // Hide home screen and show quiz
+      document.getElementById("homeScreen").style.display = "none";
+      document.getElementById("quizContainer").style.display = "block";
+      
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      quizContainer.innerHTML = "";
+      progressDiv.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+
+      const q = quizData[currentQuestion];
+      const qDiv = document.createElement("div");
+      qDiv.innerHTML = `<p class='question'>Q${currentQuestion+1}. ${q.q}</p>`;
+
+      const optDiv = document.createElement("div");
+      optDiv.classList.add("options");
+
+      q.options.forEach(opt => {
+        const checked = selectedAnswers[currentQuestion] === opt ? "checked" : "";
+        optDiv.innerHTML += `<label><input type='radio' name='q${currentQuestion}' value='${opt}' ${checked}> ${opt}</label>`;
+      });
+
+      qDiv.appendChild(optDiv);
+      quizContainer.appendChild(qDiv);
+
+      document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
+      document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
+      document.getElementById("reviewBtn").style.display = currentQuestion === quizData.length - 1 ? "inline-block" : "none";
+
+      document.querySelectorAll(`input[name='q${currentQuestion}']`).forEach(radio => {
+        radio.addEventListener("change", () => {
+          selectedAnswers[currentQuestion] = radio.value;
+        });
+      });
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    }
+
+    function reviewAnswers() {
+      document.getElementById("quizContainer").style.display = "none";
+      const reviewContainer = document.getElementById("reviewContainer");
+      reviewContainer.style.display = "block";
+
+      const reviewList = document.getElementById("reviewList");
+      reviewList.innerHTML = "";
+
+      quizData.forEach((q, index) => {
+        const userAnswer = selectedAnswers[index] || "No Answer";
+        const div = document.createElement("div");
+        div.className = "review-question";
+        div.innerHTML = `<p><strong>Q${index+1}:</strong> ${q.q}</p>
+                         <p><strong>Your Answer:</strong> ${userAnswer}</p>`;
+        reviewList.appendChild(div);
+      });
+    }
+
+    function editAnswers() {
+      document.getElementById("reviewContainer").style.display = "none";
+      document.getElementById("quizContainer").style.display = "block";
+      renderQuestion();
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        if (selectedAnswers[index] === q.answer) score++;
+      });
+
+      document.getElementById("reviewContainer").style.display = "none";
+      const badgeContainer = document.getElementById("badgeContainer");
+      badgeContainer.style.display = "block";
+
+      if (score >= 8) {
+        document.getElementById("badgeIcon").textContent = "🥇";
+        document.getElementById("badgeTitle").textContent = "Gold Badge!";
+        document.getElementById("badgeDesc").textContent = `Excellent! You scored ${score}/10.`;
+      } else if (score >= 5) {
+        document.getElementById("badgeIcon").textContent = "🥈";
+        document.getElementById("badgeTitle").textContent = "Silver Badge!";
+        document.getElementById("badgeDesc").textContent = `Good Job! You scored ${score}/10.`;
+      } else {
+        document.getElementById("badgeIcon").textContent = "🥉";
+        document.getElementById("badgeTitle").textContent = "Bronze Badge";
+        document.getElementById("badgeDesc").textContent = `Keep practicing! You scored ${score}/10.`;
+      }
+    }
+
+    function goHome() {
+      // Hide all containers
+      document.getElementById("quizContainer").style.display = "none";
+      document.getElementById("reviewContainer").style.display = "none";
+      document.getElementById("badgeContainer").style.display = "none";
+      
+      // Show home screen
+      document.getElementById("homeScreen").style.display = "block";
+      
+      // Reset quiz state
+      currentQuestion = 0;
+      selectedAnswers = {};
+    }
+
+    // Initialize the app by showing home screen
+    document.getElementById("homeScreen").style.display = "block";
+  </script>
+</body>
+</html>

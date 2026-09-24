@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aptitude Tests - AptitudeHub</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+      text-align: center;
+      flex-grow: 1;
+    }
+    h2 {
+      color: #0066cc;
+      margin-bottom: 30px;
+    }
+    .levels {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .level-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .level-card:hover {
+      transform: translateY(-5px);
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      color: #fff;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+    .btn-beginner {
+      background-color: #0066cc;
+    }
+    .btn-beginner:hover {
+      background-color: #004080;
+    }
+    .btn-intermediate {
+      background-color: #ff9800;
+    }
+    .btn-intermediate:hover {
+      background-color: #e68900;
+    }
+    .btn-expert {
+      background-color: #e53935;
+    }
+    .btn-expert:hover {
+      background-color: #c62828;
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 60px 0 20px;
+      margin-top: auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+    }
+    .footer-column h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: #bdc3c7;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+    .social-links a:hover {
+      background-color: #0066cc;
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #bdc3c7;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Select Your Level</h2>
+    <div class="levels">
+      <div class="level-card">
+        <h3>Beginner Level</h3>
+        <p>Start from the basics and build a strong foundation.</p>
+        <a href="beginner.html" class="btn btn-beginner">Start</a>
+      </div>
+
+      <div class="level-card">
+        <h3>Intermediate Level</h3>
+        <p>Challenge yourself with moderately difficult questions.</p>
+        <a href="intermediate.html" class="btn btn-intermediate">Start</a>
+      </div>
+
+      <div class="level-card">
+        <h3>Expert Level</h3>
+        <p>Test your skills with advanced, exam-style problems.</p>
+        <a href="expert.html" class="btn btn-expert">Start</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h3>AptitudeHub</h3>
+        <p>The premier platform for aptitude test preparation and interview questions.</p>
+        <div class="social-links">
+          <a href="#">FB</a>
+          <a href="#">TW</a>
+          <a href="#">IG</a>
+          <a href="#">LI</a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="aptitude-tests.html">Aptitude Tests</a></li>
+          <li><a href="#">Interview Questions</a></li>
+          <li><a href="#">Online Tests</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>© 2023 AptitudeHub. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const level = urlParams.get('level') || 'beginner';
+    
+    // Dynamically load the right question file
+    const script = document.createElement("script");
+    script.src = `questions-${level}.js`;
+    document.body.appendChild(script);
+    
+    script.onload = () => {
+      if (!questions || questions.length === 0) {
+        document.getElementById("question").textContent = "No questions available!";
+        return;
+      }
+      loadQuestion();  // Load first question after questions array is available
+      startTimer();
+    };
+    </script>
+    
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logical Reasoning Quiz - AptitudeHub</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+h1 { margin-top: 30px; color: #0066cc; }
+
+.step, .question-card {
+    max-width: 700px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.step h2, .question-card h3 { color: #004080; }
+
+.btn-back, .btn-start, .btn-option, .btn-nav, .btn-restart {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-back { background-color: #0066cc; color: #fff; }
+.btn-back:hover { background-color: #004080; }
+
+.btn-start { background-color: #28a745; color: #fff; }
+.btn-start:hover { background-color: #1e7e34; }
+
+.btn-option {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #0066cc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+.btn-option:hover { background-color: #0066cc; color: #fff; }
+
+.result { margin-top: 20px; font-weight: bold; text-align: center; font-size: 1.1rem; }
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 20px auto;
+    height: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #0066cc;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+</style>
+</head>
+<body>
+
+<h1>Logical Reasoning Quiz</h1>
+
+<!-- Step 1: Select Difficulty -->
+<div class="step" id="difficulty-step">
+    <h2>Select Difficulty</h2>
+    <button class="btn-start" onclick="startQuiz('easy')">Easy</button>
+    <button class="btn-start" onclick="startQuiz('medium')">Medium</button>
+    <button class="btn-start" onclick="startQuiz('hard')">Hard</button>
+</div>
+
+<!-- Quiz Step -->
+<div class="question-card" id="quiz-step" style="display:none;">
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <h3 id="question-text">Question will appear here</h3>
+    <div class="options">
+        <button class="btn-option" id="option0" onclick="selectAnswer(0)"></button>
+        <button class="btn-option" id="option1" onclick="selectAnswer(1)"></button>
+        <button class="btn-option" id="option2" onclick="selectAnswer(2)"></button>
+        <button class="btn-option" id="option3" onclick="selectAnswer(3)"></button>
+    </div>
+    <div class="result" id="result"></div>
+    <div style="margin-top:15px;">
+        <button class="btn-nav" onclick="prevQuestion()">Previous</button>
+        <button class="btn-nav" onclick="nextQuestion()">Next</button>
+    </div>
+    <div style="margin-top:20px;">
+        <a href="practice.html" class="btn-back">Back to Categories</a>
+        <a href="index.html" class="btn-back">Back to Home</a>
+    </div>
+</div>
+
+<script>
+const questions = {
+easy: [
+{question:"Find the next number: 2, 4, 6, 8, ?", options:[10,12,9,14], answer:10},
+{question:"Select the odd one out: Apple, Banana, Mango, Carrot", options:["Apple","Banana","Mango","Carrot"], answer:"Carrot"},
+{question:"Find the missing letter: A, C, E, ?", options:["F","G","H","I"], answer:"G"},
+{question:"Direction: Turn left then right then left. Which direction now?", options:["North","South","East","West"], answer:"West"},
+{question:"Which shape comes next in sequence: ◼️ ◻️ ◼️ ?", options:["◻️","◼️","◪","◯"], answer:"◻️"},
+{question:"Complete series: 5,10,15,?", options:[20,25,30,35], answer:20},
+{question:"Find odd number: 3,5,7,8,9", options:[3,5,7,8], answer:8},
+{question:"If John is taller than Mike, Mike taller than Sam, who is shortest?", options:["John","Mike","Sam","Can't tell"], answer:"Sam"},
+{question:"Complete the pattern: 2,4,8,16,?", options:[32,24,20,30], answer:32},
+{question:"Select synonym of 'Quick': Fast, Slow, Rapid, Late", options:["Fast","Slow","Rapid","Late"], answer:"Slow"}
+],
+medium: [
+{question:"Find the missing number: 3, 9, 27, ?", options:[54,81,72,63], answer:81},
+{question:"If all cats are animals, and all animals are living beings, then all cats are living beings?", options:["Yes","No","Can't tell","None"], answer:"Yes"},
+{question:"Select the odd one out: Circle, Triangle, Square, Cube", options:["Circle","Triangle","Square","Cube"], answer:"Cube"},
+{question:"Direction: Walk 3 km north, then 4 km east. Distance from start?", options:["5 km","6 km","7 km","8 km"], answer:"5 km"},
+{question:"Find missing letter: B, E, H, ?", options:["K","I","L","M"], answer:"K"},
+{question:"Logical series: 2,5,10,17, ?", options:[26,27,28,30], answer:26},
+{question:"If all roses are flowers, and some flowers fade quickly, are some roses fade quickly?", options:["Yes","No","Can't tell","None"], answer:"Can't tell"},
+{question:"Select the odd one out: 2,3,5,7,9", options:[2,3,5,7,9], answer:9},
+{question:"Complete analogy: Dog: Puppy:: Cat: ?", options:["Kitten","Cub","Calf","Foal"], answer:"Kitten"},
+{question:"Find pattern: 1,4,9,16, ?", options:[20,25,30,36], answer:25}
+],
+hard: [
+{question:"Find missing number: 7,14,28,56,?", options:[112,110,100,120], answer:112},
+{question:"If A>B and B>C, then A>C?", options:["Yes","No","Can't tell","None"], answer:"Yes"},
+{question:"Select the next in series: 2,6,12,20,?", options:[30,32,28,24], answer:30},
+{question:"Direction: Start east, turn left, left, right. Facing?", options:["North","South","East","West"], answer:"West"},
+{question:"Which does not belong: Mercury, Venus, Earth, Pluto", options:["Mercury","Venus","Earth","Pluto"], answer:"Pluto"},
+{question:"Solve: If x+y=12, y=5, find x", options:[5,6,7,8], answer:7},
+{question:"Find odd one: 11,13,17,21,23", options:[11,13,17,21,23], answer:21},
+{question:"Select synonym of 'Abundant': Scarce, Plenty, Rare, Little", options:["Scarce","Plenty","Rare","Little"], answer:"Plenty"},
+{question:"Logical puzzle: Two trains leave same time opposite direction. Meet after?", options:["Depends on distance","1 hr","2 hr","Can't tell"], answer:"Depends on distance"},
+{question:"Find next letter in series: Z, X, V, ?", options:["T","U","S","R"], answer:"T"}
+]
+};
+
+let currentDifficulty = '';
+let quizData = [];
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz(level){
+    currentDifficulty = level;
+    quizData = questions[level];
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('difficulty-step').style.display = 'none';
+    document.getElementById('quiz-step').style.display = 'block';
+    updateProgressBar();
+    showQuestion();
+}
+
+function showQuestion(){
+    const q = quizData[currentQuestion];
+    document.getElementById('question-text').innerText = `Q${currentQuestion+1}: ${q.question}`;
+    for(let i=0;i<4;i++){
+        const btn = document.getElementById('option'+i);
+        btn.innerText = q.options[i];
+        btn.disabled = false;
+        btn.style.backgroundColor = '#f8f9fa';
+        btn.style.color = '#000';
+    }
+    document.getElementById('result').innerText = '';
+    updateProgressBar();
+}
+
+function selectAnswer(index){
+    const selected = quizData[currentQuestion].options[index];
+    const correct = quizData[currentQuestion].answer;
+    const resultEl = document.getElementById('result');
+
+    if((Array.isArray(correct) && correct.includes(selected)) || selected === correct){
+        resultEl.innerText = "Correct Answer!";
+        resultEl.style.color = "#28a745";
+        score++;
+    } else {
+        resultEl.innerText = `Wrong Answer! Correct: ${Array.isArray(correct)? correct.join(' or ') : correct}`;
+        resultEl.style.color = "#dc3545";
+    }
+
+    for(let i=0;i<4;i++){
+        document.getElementById('option'+i).disabled = true;
+    }
+    updateProgressBar();
+}
+
+function nextQuestion(){
+    if(currentQuestion < quizData.length -1){
+        currentQuestion++;
+        showQuestion();
+    } else { showFinalScore(); }
+}
+
+function prevQuestion(){
+    if(currentQuestion > 0){
+        currentQuestion--;
+        showQuestion();
+    }
+}
+
+function showFinalScore(){
+    const quizStep = document.getElementById('quiz-step');
+    quizStep.innerHTML = `
+        <h2>Quiz Completed!</h2>
+        <p>Your Score: ${score} / ${quizData.length}</p>
+        <button class="btn-restart" onclick="restartQuiz()">Restart Quiz</button>
+        <div style="margin-top:20px;">
+            <a href="practice.html" class="btn-back">Back to Categories</a>
+            <a href="index.html" class="btn-back">Back to Home</a>
+        </div>
+    `;
+}
+
+function restartQuiz(){
+    document.getElementById('difficulty-step').style.display = 'block';
+    document.getElementById('quiz-step').style.display = 'none';
+    document.getElementById('progress-bar').style.width = '0%';
+}
+
+function updateProgressBar(){
+    const progressPercent = ((currentQuestion)/quizData.length)*100;
+    document.getElementById('progress-bar').style.width = progressPercent + '%';
+}
+</script>
+</body>
+</html>

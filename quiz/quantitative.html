@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantitative Aptitude Quiz - AptitudeHub</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+h1 { margin-top: 30px; color: #0066cc; }
+
+.step, .question-card {
+    max-width: 700px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.step h2, .question-card h3 { color: #004080; }
+
+.btn-back, .btn-start, .btn-option, .btn-nav, .btn-restart {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-back { background-color: #0066cc; color: #fff; }
+.btn-back:hover { background-color: #004080; }
+
+.btn-start { background-color: #28a745; color: #fff; }
+.btn-start:hover { background-color: #1e7e34; }
+
+.btn-option {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #0066cc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+.btn-option:hover { background-color: #0066cc; color: #fff; }
+
+.result { margin-top: 20px; font-weight: bold; text-align: center; font-size: 1.1rem; }
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 20px auto;
+    height: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #0066cc;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+</style>
+</head>
+<body>
+
+<h1>Quantitative Aptitude Quiz</h1>
+
+<!-- Step 1: Select Difficulty -->
+<div class="step" id="difficulty-step">
+    <h2>Select Difficulty</h2>
+    <button class="btn-start" onclick="startQuiz('easy')">Easy</button>
+    <button class="btn-start" onclick="startQuiz('medium')">Medium</button>
+    <button class="btn-start" onclick="startQuiz('hard')">Hard</button>
+</div>
+
+<!-- Quiz Step -->
+<div class="question-card" id="quiz-step" style="display:none;">
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <h3 id="question-text">Question will appear here</h3>
+    <div class="options">
+        <button class="btn-option" id="option0" onclick="selectAnswer(0)"></button>
+        <button class="btn-option" id="option1" onclick="selectAnswer(1)"></button>
+        <button class="btn-option" id="option2" onclick="selectAnswer(2)"></button>
+        <button class="btn-option" id="option3" onclick="selectAnswer(3)"></button>
+    </div>
+    <div class="result" id="result"></div>
+    <div style="margin-top:15px;">
+        <button class="btn-nav" onclick="prevQuestion()">Previous</button>
+        <button class="btn-nav" onclick="nextQuestion()">Next</button>
+    </div>
+    <div style="margin-top:20px;">
+        <a href="practice.html" class="btn-back">Back to Categories</a>
+        <a href="index.html" class="btn-back">Back to Home</a>
+    </div>
+</div>
+
+<script>
+const questions = {
+easy: [
+{question:"12 + 7 = ?", options:[19,20,18,21], answer:19},
+{question:"15 × 3 = ?", options:[45,35,40,50], answer:45},
+{question:"30 ÷ 5 = ?", options:[5,6,7,8], answer:6},
+{question:"25 - 8 = ?", options:[15,16,17,18], answer:17},
+{question:"9 × 9 = ?", options:[81,72,79,91], answer:81},
+{question:"20 ÷ 4 = ?", options:[4,5,6,7], answer:5},
+{question:"7 + 14 = ?", options:[21,20,19,22], answer:21},
+{question:"6 × 8 = ?", options:[46,48,50,42], answer:48},
+{question:"18 ÷ 3 = ?", options:[5,6,7,8], answer:6},
+{question:"10 + 15 = ?", options:[24,25,26,27], answer:25}
+],
+medium: [
+{question:"Square of 15 = ?", options:[225,150,215,200], answer:225},
+{question:"45% of 200 = ?", options:[80,90,95,100], answer:90},
+{question:"LCM of 12 and 18 = ?", options:[36,54,72,24], answer:36},
+{question:"If 3x = 27, x = ?", options:[7,8,9,10], answer:9},
+{question:"25% of 400 = ?", options:[90,100,120,80], answer:100},
+{question:"50 × 12 = ?", options:[500,600,550,650], answer:600},
+{question:"Square root of 144 = ?", options:[10,11,12,13], answer:12},
+{question:"120 ÷ 8 = ?", options:[12,15,14,16], answer:15},
+{question:"5 × 7 - 3 = ?", options:[30,32,35,33], answer:32},
+{question:"70% of 50 = ?", options:[30,35,40,32], answer:35}
+],
+hard: [
+{question:"If x + 2y = 10 and x - y = 2, find x?", options:[4,2,6,8], answer:4},
+{question:"Cube root of 729 = ?", options:[8,9,10,12], answer:9},
+{question:"50% of 150 + 30% of 200 = ?", options:[120,130,140,150], answer:130},
+{question:"Solve: 5x - 3 = 2x + 12, x = ?", options:[3,4,5,6], answer:5},
+{question:"LCM of 15,20,30 = ?", options:[60,90,120,150], answer:60},
+{question:"If x^2 = 81, x = ?", options:[9,-9,9,-9], answer:[9,-9]},
+{question:"75 ÷ 0.5 = ?", options:[150,125,100,175], answer:150},
+{question:"15% of 200 = ?", options:[25,30,35,40], answer:30},
+{question:"Solve: 3x + 4 = 19, x = ?", options:[4,5,6,7], answer:5},
+{question:"Square of 18 = ?", options:[324,312,320,300], answer:324}
+]
+};
+
+let currentDifficulty = '';
+let quizData = [];
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz(level){
+    currentDifficulty = level;
+    quizData = questions[level];
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('difficulty-step').style.display = 'none';
+    document.getElementById('quiz-step').style.display = 'block';
+    updateProgressBar();
+    showQuestion();
+}
+
+function showQuestion(){
+    const q = quizData[currentQuestion];
+    document.getElementById('question-text').innerText = `Q${currentQuestion+1}: ${q.question}`;
+    for(let i=0;i<4;i++){
+        const btn = document.getElementById('option'+i);
+        btn.innerText = q.options[i];
+        btn.disabled = false;
+        btn.style.backgroundColor = '#f8f9fa';
+        btn.style.color = '#000';
+    }
+    document.getElementById('result').innerText = '';
+    updateProgressBar();
+}
+
+function selectAnswer(index){
+    const selected = quizData[currentQuestion].options[index];
+    const correct = quizData[currentQuestion].answer;
+    const resultEl = document.getElementById('result');
+
+    if((Array.isArray(correct) && correct.includes(selected)) || selected === correct){
+        resultEl.innerText = "Correct Answer!";
+        resultEl.style.color = "#28a745";
+        score++;
+    } else {
+        resultEl.innerText = `Wrong Answer! Correct: ${Array.isArray(correct)? correct.join(' or ') : correct}`;
+        resultEl.style.color = "#dc3545";
+    }
+
+    for(let i=0;i<4;i++){
+        document.getElementById('option'+i).disabled = true;
+    }
+    updateProgressBar();
+}
+
+function nextQuestion(){
+    if(currentQuestion < quizData.length -1){
+        currentQuestion++;
+        showQuestion();
+    } else { showFinalScore(); }
+}
+
+function prevQuestion(){
+    if(currentQuestion > 0){
+        currentQuestion--;
+        showQuestion();
+    }
+}
+
+function showFinalScore(){
+    const quizStep = document.getElementById('quiz-step');
+    quizStep.innerHTML = `
+        <h2>Quiz Completed!</h2>
+        <p>Your Score: ${score} / ${quizData.length}</p>
+        <button class="btn-restart" onclick="restartQuiz()">Restart Quiz</button>
+        <div style="margin-top:20px;">
+            <a href="practice.html" class="btn-back">Back to Categories</a>
+            <a href="index.html" class="btn-back">Back to Home</a>
+        </div>
+    `;
+}
+
+function restartQuiz(){
+    document.getElementById('difficulty-step').style.display = 'block';
+    document.getElementById('quiz-step').style.display = 'none';
+    document.getElementById('progress-bar').style.width = '0%';
+}
+
+function updateProgressBar(){
+    const progressPercent = ((currentQuestion)/quizData.length)*100;
+    document.getElementById('progress-bar').style.width = progressPercent + '%';
+}
+</script>
+</body>
+</html>
